@@ -1,16 +1,16 @@
 import { create } from "zustand";
 
-interface LoginModalStore {
+interface RegisterModalStore {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 }
 
 // Hook to control login modal
-export const useLoginModal = create<LoginModalStore>((set) => ({
+const useRegisterModal = create<RegisterModalStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }));
 
-export default useLoginModal;
+export default useRegisterModal;
