@@ -55,13 +55,12 @@ export const LoginModal = () => {
     <div className="text-neutral-400 text-center mt-4">
       <p>
         First time using Twitter?
-        <span
+        <button
           onClick={onToggle}
-          className="text-white cursor-pointer hover:underline"
+          className="text-white cursor-pointer hover:underline ml-1"
         >
-          {" "}
           Create an account
-        </span>
+        </button>
       </p>
     </div>
   );
