@@ -1,5 +1,6 @@
-import useLoginModal from "@/hooks/useLoginModal";
 import React, { useState } from "react";
+import { signIn } from "next-auth/react";
+import useLoginModal from "@/hooks/useLoginModal";
 import { Input } from "../Input";
 import { Modal } from "../Modal";
 import useRegisterModal from "@/hooks/useRegisterModal";
@@ -16,7 +17,10 @@ export const LoginModal = () => {
     try {
       setIsLoading(true);
 
-      // TODO ADD LOG IN
+      await signIn("credentials", {
+        email,
+        password,
+      });
 
       loginModal.onClose();
     } catch (error) {
@@ -47,6 +51,7 @@ export const LoginModal = () => {
         onChange={(e) => setPassword(e.target.value)}
         value={password}
         disabled={isLoading}
+        type="password"
       />
     </div>
   );
