@@ -8,7 +8,7 @@ import fetcher from "@/libs/fetcher";
 // This will replace our global state e.g redux.
 const useUser = (userId: string) => {
   const { data, error, isLoading, mutate } = useSWR(
-    userId ? `/api/user/${userId}` : null,
+    userId ? `/api/users/${userId}` : null,
     fetcher
   );
 
