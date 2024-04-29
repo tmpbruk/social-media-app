@@ -24,9 +24,6 @@ export const Avatar: React.FC<AvatarProps> = ({
 
     router.push(url);
   };
-  //   if (fetchedUser) {
-  //     return null;
-  //   }
 
   return (
     <div
@@ -38,6 +35,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     hover:opacity-90
     cursor-pointer
     relative
+    transition
   `}
     >
       <Image
