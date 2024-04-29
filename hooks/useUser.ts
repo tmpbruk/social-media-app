@@ -6,10 +6,13 @@ import fetcher from "@/libs/fetcher";
 // We can re-use useCurrent in different place, but it is not going to refetch every time we use it.
 // It will check and see if data already exists and will decide if data needs to be fetched again.
 // This will replace our global state e.g redux.
-const useCurrentUser = () => {
-  const { data, error, isLoading, mutate } = useSWR("/api/current", fetcher);
+const useUser = (userId: string) => {
+  const { data, error, isLoading, mutate } = useSWR(
+    userId ? `/api/user/${userId}` : null,
+    fetcher
+  );
 
   return { data, error, isLoading, mutate };
 };
 
-export default useCurrentUser;
+export default useUser;
