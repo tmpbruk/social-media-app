@@ -1,8 +1,11 @@
-import useRegisterModal from "@/hooks/useRegisterModal";
+import axios from "axios";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
+import useRegisterModal from "@/hooks/useRegisterModal";
+import useLoginModal from "@/hooks/useLoginModal";
 import { Input } from "../Input";
 import { Modal } from "../Modal";
-import useLoginModal from "@/hooks/useLoginModal";
 
 export const RegisterModal = () => {
   const loginModal = useLoginModal();
@@ -18,11 +21,24 @@ export const RegisterModal = () => {
     try {
       setIsLoading(true);
 
-      // TODO ADD REGISTER and LOGIN
+      await axios.post("/api/register", {
+        email,
+        password,
+        name,
+        username,
+      });
+
+      toast.success("Account created");
+
+      signIn("credentials", {
+        email,
+        password,
+      });
 
       registerModal.onClose();
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -41,6 +57,7 @@ export const RegisterModal = () => {
         onChange={(e) => setEmail(e.target.value)}
         value={email}
         disabled={isLoading}
+        type="email"
       />
       <Input
         placeholder="Name"
@@ -60,6 +77,7 @@ export const RegisterModal = () => {
         onChange={(e) => setPassword(e.target.value)}
         value={password}
         disabled={isLoading}
+        type="password"
       />
     </div>
   );
@@ -68,13 +86,12 @@ export const RegisterModal = () => {
     <div className="text-neutral-400 text-center mt-4">
       <p>
         Already have an account?
-        <span
+        <button
           onClick={onToggle}
-          className="text-white cursor-pointer hover:underline"
+          className="text-white cursor-pointer hover:underline ml-1"
         >
-          {" "}
           Sign in
-        </span>
+        </button>
       </p>
     </div>
   );
