@@ -6,6 +6,7 @@ interface InputProps {
   type?: string;
   disabled?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  maxLength?: number;
 }
 export const Input: React.FC<InputProps> = ({
   placeholder,
@@ -13,9 +14,11 @@ export const Input: React.FC<InputProps> = ({
   type,
   disabled,
   onChange,
+  maxLength,
 }) => {
   return (
     <input
+      maxLength={maxLength}
       value={value}
       type={type}
       placeholder={placeholder}
