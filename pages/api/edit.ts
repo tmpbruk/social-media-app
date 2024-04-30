@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import serverAuth from "@/libs/serverAuth";
 import prisma from "@/libs/prismadb";
+import { authOptions } from "./auth/[...nextauth]";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +12,7 @@ export default async function handler(
   }
 
   try {
-    const { currentUser } = await serverAuth(req);
+    const { currentUser } = await serverAuth(req, res, authOptions);
 
     const { name, username, bio, profileImage, coverImage } = req.body;
 
