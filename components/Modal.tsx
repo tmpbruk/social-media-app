@@ -27,6 +27,11 @@ export const Modal: React.FC<ModalProps> = ({
     onClose();
   };
 
+  const handleOutsideClick = (e: any) => {
+    e.stopPropagation();
+    if (e.currentTarget === e.target) onClose();
+  };
+
   const handleSubmit = () => {
     if (disabled) return;
     onSubmit();
@@ -37,9 +42,9 @@ export const Modal: React.FC<ModalProps> = ({
   }
 
   return (
-    <>
-      <div
-        className="
+    <div
+      onClick={handleOutsideClick}
+      className="
     justify-center
     items-center
     flex
@@ -53,9 +58,9 @@ export const Modal: React.FC<ModalProps> = ({
     bg-opacity-70
 
   "
-      >
-        <div
-          className="
+    >
+      <div
+        className="
             relative
             w-full
             lg:w-3/6
@@ -65,10 +70,10 @@ export const Modal: React.FC<ModalProps> = ({
             h-full
             lg:h-auto
         "
-        >
-          {/* {Content} */}
-          <div
-            className="
+      >
+        {/* {Content} */}
+        <div
+          className="
             h-full
             lg:h-auto
             border-0
@@ -80,29 +85,29 @@ export const Modal: React.FC<ModalProps> = ({
             bg-black
             focus:outline-none
             "
-          >
-            {/* {Header} */}
-            <div
-              className="
+        >
+          {/* {Header} */}
+          <div
+            className="
                 flex 
                 items-center
                 justify-between
                 p-10
                 rounded-t            
             "
-            >
-              <h3
-                className="
+          >
+            <h3
+              className="
                     text-3xl
                    font-semibold
                    text-white 
                 "
-              >
-                {title}
-              </h3>
-              <button
-                onClick={handleClose}
-                className="
+            >
+              {title}
+            </h3>
+            <button
+              onClick={handleClose}
+              className="
                 p-1
                 ml-auto
                 border-0
@@ -110,42 +115,41 @@ export const Modal: React.FC<ModalProps> = ({
                 hover:opacity-70
                 transition
               "
-              >
-                <AiOutlineClose size={20} color="white" />
-              </button>
-            </div>
-            {/* {Body} */}
-            <div
-              className="
+            >
+              <AiOutlineClose size={20} color="white" />
+            </button>
+          </div>
+          {/* {Body} */}
+          <div
+            className="
                 relative
                 p-10
                 flex-auto
             "
-            >
-              {body}
-            </div>
-            {/* {Footer} */}
-            <div
-              className="
+          >
+            {body}
+          </div>
+          {/* {Footer} */}
+          <div
+            className="
                 flex
                 flex-col
                 gap-2
                 p-10
             "
-            >
-              <Button
-                disabled={disabled}
-                label={actionLabel}
-                secondary
-                fullWidth
-                large
-                onClick={handleSubmit}
-              />
-              {footer}
-            </div>
+          >
+            <Button
+              disabled={disabled}
+              label={actionLabel}
+              secondary
+              fullWidth
+              large
+              onClick={handleSubmit}
+            />
+            {footer}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
