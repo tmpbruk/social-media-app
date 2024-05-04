@@ -13,7 +13,7 @@ export default async function handler(
 
   try {
     //get postId from request body
-    const postId = req.body;
+    const { postId } = req.body;
 
     // get current user
     const { currentUser } = await serverAuth(req, res, authOptions);

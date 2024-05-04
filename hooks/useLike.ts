@@ -33,10 +33,10 @@ const useLike = ({ postId, userId }: { postId: string; userId?: string }) => {
 
       if (hasLiked) {
         request = () => axios.delete("api/like", { data: { postId } });
-        toastMessage = "You liked this post";
+        toastMessage = "You unliked this post";
       } else {
         request = () => axios.post("/api/like", { postId });
-        toastMessage = "You unliked this post";
+        toastMessage = "You liked this post";
       }
 
       await request();

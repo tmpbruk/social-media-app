@@ -16,7 +16,6 @@ export const PostItem: React.FC<PostItemProps> = ({ userId, data }) => {
   const loginModal = useLoginModal();
   const { data: currentUser } = useCurrentUser();
   const { hasLiked, toggleLike } = useLike({ postId: data.id, userId });
-  console.log("AAAAAAA", data);
 
   const goToUser = (e: any) => {
     e.stopPropagation();
@@ -143,7 +142,7 @@ export const PostItem: React.FC<PostItemProps> = ({ userId, data }) => {
             hover:text-red-500
             "
             >
-              <LikedIcon size={20} />
+              <LikedIcon color={hasLiked ? "red" : ""} size={20} />
               <p>{data.likedIds?.length || 0}</p>
             </div>
           </div>
