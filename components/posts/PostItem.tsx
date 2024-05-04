@@ -1,11 +1,11 @@
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useLoginModal from "@/hooks/useLoginModal";
-import useRegisterModal from "@/hooks/useRegisterModal";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { Avatar } from "../Avatar";
-import { AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineMessage, AiFillHeart } from "react-icons/ai";
+import useLike from "@/hooks/useLike";
 
 interface PostItemProps {
   userId?: string;
@@ -14,8 +14,8 @@ interface PostItemProps {
 export const PostItem: React.FC<PostItemProps> = ({ userId, data }) => {
   const router = useRouter();
   const loginModal = useLoginModal();
-  const registerModal = useRegisterModal();
   const { data: currentUser } = useCurrentUser();
+  const { hasLiked, toggleLike } = useLike({ postId: data.id, userId });
 
   const goToUser = (e: any) => {
     e.stopPropagation();
@@ -28,7 +28,11 @@ export const PostItem: React.FC<PostItemProps> = ({ userId, data }) => {
 
   const onLike = (e: any) => {
     e.stopPropagation();
-    loginModal.onOpen();
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    toggleLike();
   };
 
   const createdAt = useMemo(() => {
@@ -37,6 +41,8 @@ export const PostItem: React.FC<PostItemProps> = ({ userId, data }) => {
     }
     return formatDistanceToNowStrict(new Date(data.createdAt));
   }, [data?.createdAt]);
+
+  const LikedIcon = hasLiked ? AiFillHeart : AiOutlineHeart;
 
   return (
     <div
@@ -136,8 +142,8 @@ export const PostItem: React.FC<PostItemProps> = ({ userId, data }) => {
             hover:text-red-500
             "
             >
-              <AiOutlineHeart size={20} />
-              <p>{data.comments?.length || 0}</p>
+              <LikedIcon color={hasLiked ? "red" : ""} size={20} />
+              <p>{data.likedIds?.length || 0}</p>
             </div>
           </div>
         </div>
