@@ -22,10 +22,13 @@ const useFollow = (userId: string) => {
 
     try {
       let request;
+      let message;
       if (isFollowing) {
         request = () => axios.delete("/api/follow", { data: { userId } });
+        message = "You have unfollowed this user";
       } else {
         request = () => axios.post("/api/follow", { userId });
+        message = "You are following this user";
       }
 
       await request();
@@ -33,7 +36,7 @@ const useFollow = (userId: string) => {
       mutateCurrentUser();
       mutateFetchedUser();
 
-      toast.success("Success");
+      toast.success(message);
     } catch (error) {
       toast.error("Something went wrong");
     }
