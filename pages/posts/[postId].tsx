@@ -7,6 +7,7 @@ import { PostItem } from "@/components/posts/PostItem";
 import { Header } from "@/components/Header";
 import { ClipLoader } from "react-spinners";
 import { Form } from "@/components/Form";
+import { CommentFeed } from "@/components/posts/CommentFeed";
 const PostView = () => {
   const router = useRouter();
   const { postId } = router.query;
@@ -28,6 +29,7 @@ const PostView = () => {
         isComment
         placeholder="Tweet your reply"
       />
+      <CommentFeed comments={fetchedPost?.comments} />
     </div>
   );
 };

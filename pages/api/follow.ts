@@ -8,7 +8,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method !== "POST" && req.method !== "DELETE") {
-    res.status(405).end();
+    return res.status(405).end();
   }
 
   try {
@@ -50,9 +50,9 @@ export default async function handler(
       },
     });
 
-    res.status(200).json(updatedUser);
+    return res.status(200).json(updatedUser);
   } catch (error) {
     console.log(error);
-    res.status(400).end();
+    return res.status(400).end();
   }
 }
