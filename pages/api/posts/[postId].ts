@@ -6,7 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method !== "GET") {
-    res.status(405).end();
+    return res.status(405).end();
   }
 
   try {
@@ -36,6 +36,6 @@ export default async function handler(
     return res.status(200).json(post);
   } catch (error) {
     console.log(error);
-    res.status(400).end();
+    return res.status(400).end();
   }
 }
