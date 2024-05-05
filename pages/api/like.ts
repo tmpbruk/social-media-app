@@ -40,6 +40,33 @@ export default async function handler(
     // id current user like the post, we push to the array of likedIds
     if (req.method === "POST") {
       updatedLikedIds.push(currentUser.id);
+
+      try {
+        const post = await prisma.post.findUnique({
+          where: {
+            id: postId,
+          },
+        });
+        if (post?.userId) {
+          await prisma.notification.create({
+            data: {
+              body: "Someone liked you tweet!",
+              userId: post.userId,
+            },
+          });
+
+          await prisma.user.update({
+            where: {
+              id: post.userId,
+            },
+            data: {
+              hasNotification: true,
+            },
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     // id current user unlike the post, we filter and remove it id from the array of likedIds
