@@ -1,38 +1,75 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
 import { Input } from "../Input";
 import { Modal } from "../Modal";
+import { id } from "date-fns/locale";
+
+const formFields: Record<string, string>[] = [
+  {
+    id: "email",
+    type: "email",
+    placeholder: "Email",
+  },
+  {
+    id: "name",
+    type: "name",
+    placeholder: "Name",
+  },
+  {
+    id: "username",
+    type: "username",
+    placeholder: "Username",
+  },
+  {
+    id: "password",
+    type: "password",
+    placeholder: "Password",
+  },
+];
 
 export const RegisterModal = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
+  const [form, setForm] = useState(
+    formFields.reduce((acc, field) => {
+      return {
+        ...acc,
+        [field.id]: "",
+      };
+    }, {})
+  );
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setForm({
+      ...form,
+      [id]: value,
+    });
+  };
 
   const onSubmit = async () => {
     try {
       setIsLoading(true);
 
       await axios.post("/api/register", {
-        email,
-        password,
-        name,
-        username,
+        email: form.email,
+        password: form.password,
+        name: form.name,
+        username: form.username,
       });
 
       toast.success("Account created");
 
       signIn("credentials", {
-        email,
-        password,
+        email: form.email,
+        password: form.password,
       });
 
       registerModal.onClose();
@@ -52,33 +89,18 @@ export const RegisterModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Input
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        disabled={isLoading}
-        type="email"
-      />
-      <Input
-        placeholder="Name"
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-        disabled={isLoading}
-      />
-      <Input
-        placeholder="Username"
-        onChange={(e) => setUsername(e.target.value)}
-        value={username}
-        disabled={isLoading}
-      />
-
-      <Input
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-        disabled={isLoading}
-        type="password"
-      />
+      {formFields.map(({ id, type, placeholder }) => (
+        <Input
+          key={id}
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          onChange={handleChange}
+          value={form[id]}
+          disabled={isLoading}
+          required
+        />
+      ))}
     </div>
   );
 

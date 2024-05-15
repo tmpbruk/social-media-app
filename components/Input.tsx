@@ -3,21 +3,27 @@ import React from "react";
 interface InputProps {
   placeholder?: string;
   value?: string;
+  id?: string;
   type?: string;
   disabled?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   maxLength?: number;
+  required?: boolean;
 }
 export const Input: React.FC<InputProps> = ({
   placeholder,
   value,
+  id,
   type,
   disabled,
   onChange,
   maxLength,
+  required,
 }) => {
   return (
     <input
+      id={id}
+      required={required}
       maxLength={maxLength}
       value={value}
       type={type}

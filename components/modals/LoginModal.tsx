@@ -1,25 +1,34 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import useLoginModal from "@/hooks/useLoginModal";
 import { Input } from "../Input";
 import { Modal } from "../Modal";
 import useRegisterModal from "@/hooks/useRegisterModal";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 export const LoginModal = () => {
   const loginModal = useLoginModal();
   const register = useRegisterModal();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    email: "dog@gmail.com",
+    password: "123321",
+  });
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    const { id, value } = e.target;
+    setForm({ ...form, [id]: value });
+  };
 
   const onSubmit = async () => {
     try {
       setIsLoading(true);
 
       await signIn("credentials", {
-        email,
-        password,
+        email: form.email,
+        password: form.password,
       });
 
       loginModal.onClose();
@@ -40,18 +49,22 @@ export const LoginModal = () => {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Input
+        id="email"
         placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
+        onChange={handleChange}
+        value={form.email}
         disabled={isLoading}
+        required
       />
 
       <Input
+        id="password"
         placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
+        onChange={handleChange}
+        value={form.password}
         disabled={isLoading}
         type="password"
+        required
       />
     </div>
   );
