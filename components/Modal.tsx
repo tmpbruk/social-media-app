@@ -32,7 +32,8 @@ export const Modal: React.FC<ModalProps> = ({
     if (e.currentTarget === e.target) onClose();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
     if (disabled) return;
     onSubmit();
   };
@@ -72,7 +73,8 @@ export const Modal: React.FC<ModalProps> = ({
         "
       >
         {/* {Content} */}
-        <div
+        <form
+          onSubmit={handleSubmit}
           className="
             h-full
             lg:h-auto
@@ -106,6 +108,7 @@ export const Modal: React.FC<ModalProps> = ({
               {title}
             </h3>
             <button
+              type="button"
               onClick={handleClose}
               className="
                 p-1
@@ -144,11 +147,10 @@ export const Modal: React.FC<ModalProps> = ({
               secondary
               fullWidth
               large
-              onClick={handleSubmit}
             />
             {footer}
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
