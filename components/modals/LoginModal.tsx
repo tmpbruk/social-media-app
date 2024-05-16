@@ -1,18 +1,17 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 import useLoginModal from "@/hooks/useLoginModal";
 import { Input } from "../Input";
 import { Modal } from "../Modal";
 import useRegisterModal from "@/hooks/useRegisterModal";
-import useCurrentUser from "@/hooks/useCurrentUser";
 
 export const LoginModal = () => {
   const loginModal = useLoginModal();
   const register = useRegisterModal();
 
   const [form, setForm] = useState({
-    email: "dog@gmail.com",
-    password: "123321",
+    email: "",
+    password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 

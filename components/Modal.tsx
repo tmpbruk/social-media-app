@@ -38,12 +38,6 @@ export const Modal: React.FC<ModalProps> = ({
     onSubmit();
   };
 
-  const handleKeyDown = (e: any) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-    }
-  };
-
   if (!isOpen) {
     return null;
   }
@@ -81,7 +75,6 @@ export const Modal: React.FC<ModalProps> = ({
         {/* {Content} */}
         <form
           onSubmit={handleSubmit}
-          onKeyDown={handleKeyDown}
           className="
             h-full
             lg:h-auto
@@ -115,6 +108,7 @@ export const Modal: React.FC<ModalProps> = ({
               {title}
             </h3>
             <button
+              type="button"
               onClick={handleClose}
               className="
                 p-1
